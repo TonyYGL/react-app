@@ -1,43 +1,59 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './login.css';
 
 function Login() {
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState({});
-    const navigate = useNavigate();
+  // 定義一個處理輸入變化的函數
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value }); // 更新狀態中的對應屬性
+  };
 
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name]: value}))
-      }
-    
-      const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(JSON.stringify(inputs));
 
-        navigate('/home', { state: { username: inputs.username } });
-      }
+  return (
+    <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <div className='loginForm'>
+        <TextField
+          id="username"
+          label="Username"
+          name="username"
+          type="text"
+          value={formData.username}
+          onChange={handleInputChange}
+        />
+        <TextField
+          id="outlined-password-input"
+          label="Password"
+          name='password'
+          type="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>Username
-                <input type="text" 
-                name='username'
-                value={inputs.username || ""} 
-                onChange={handleChange}/>
-            </label>
-
-            <label>Password
-                <input type="text" 
-                name='password'
-                value={inputs.password || ""} 
-                onChange={handleChange}/>
-            </label>
-
-            <input type="submit" value='Login'/>
-        </form>
-    );
+        <Button variant="text"
+          onClick={() => {
+            alert(JSON.stringify(formData));
+            navigate('/home', { state: { username: formData.username } });
+          }}
+        >Login
+        </Button>
+      </div>
+    </Box>
+  );
 }
 
 export default Login;
