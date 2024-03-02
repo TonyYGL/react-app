@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
     const [inputs, setInputs] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -12,7 +14,9 @@ function Login() {
     
       const handleSubmit = (event) => {
         event.preventDefault();
-        alert(JSON.stringify(inputs));
+        console.log(JSON.stringify(inputs));
+
+        navigate('/home', { state: { username: inputs.username } });
       }
 
     return (
