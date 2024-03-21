@@ -5,8 +5,21 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
+import axios from "axios";
+
 
 function Login() {
+  alert('login');
+
+  const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
+
+  React.useEffect(() => {
+    // TODO 為啥會執行兩次
+    axios.get(baseURL).then(response => {
+        alert(JSON.stringify(response.data));
+    })
+  }, []);
+
   const [formData, setFormData] = useState({ username: '', password: '' });
   const navigate = useNavigate();
 
